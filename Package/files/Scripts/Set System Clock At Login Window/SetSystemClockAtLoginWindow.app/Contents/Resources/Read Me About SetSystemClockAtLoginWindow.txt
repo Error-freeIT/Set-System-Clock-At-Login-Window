@@ -1,0 +1,51 @@
+The project was created using the Apple’s PreLoginAgentCocoa Xcode project: https://developer.apple.com/library/mac/samplecode/PreLoginAgents/PreLoginAgents.zip
+
+Project root:
+Renamed project from “PreLoginAgentCocoa” to “SetSystemClockAtLoginWindow”
+Set the Bundle Identifier
+
+main.xib:
+Set the panel title to “Date & Time”
+Under the Size Inspector set the Initial Position to centre horizontally and vertically.
+Added an Image View, set Image to NSCaution and Scaling to Proportionally Up or Down
+main.xib: Added a Wrapping Label with message “Oops! The battery went flat, causing the date & time to reset. You must enter the correct date & time before logging in.”
+Added a Date Picker with Hour and Minute elements
+Added a “Today's date & time:” label
+Replaced the “Quit” button with a “Save & Restart” push button
+Repositioned and resized the window to be aesthetically pleasing
+
+main.xib & AppDelegate.h
+Created a new IBOutlet named “textualDatePicker”
+Created a new IBAction named “applyButton”
+
+AppDelegate.m
+Replace the applyButton IBAction function with the following code:
+- (void)awakeFromNib
+{
+// Set date & time field to current system time
+[textualDatePicker setDateValue:[NSDate date]];
+}
+
+- (IBAction)applyButton:(id)sender
+{
+
+// Convert the user entered date into a format accepted by the date command.
+NSDate *myDate = [textualDatePicker dateValue];
+NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+[dateFormatter setDateFormat:@"MMddHHmmyyyy"];
+NSString *myDateString = [dateFormatter stringFromDate:myDate];
+
+// Send date command and reboot.
+NSString *command = [NSString stringWithFormat:@"/bin/date %@; reboot", myDateString];
+NSTask *task = [[NSTask alloc] init];
+[task setLaunchPath:@"/bin/bash"];
+[task setArguments:@[ @"-c", command]];
+[task launch];
+
+}
+
+Since we only want the app to be visible if the system time is set tot a date before 2015 we need to wrap “[self.panel setHidesOnDeactivate:NO];” in a if statement:
+// 1420070400 = 01 Jan 2015 00:00:00 GMT
+if ([[NSDate date] timeIntervalSince1970] < 1420070400) {
+[self.panel setHidesOnDeactivate:NO];
+}

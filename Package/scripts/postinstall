@@ -1,0 +1,7 @@
+#!/bin/bash
+
+IDENTIFIER="au.com.errorfreeit.setsystemclockatloginwindow"
+LAUNCH_AGENT_PLIST="/Library/LaunchAgents/$IDENTIFIER.plist"
+
+# Load the LaunchAgent.
+/bin/launchctl load "$LAUNCH_AGENT_PLIST"
