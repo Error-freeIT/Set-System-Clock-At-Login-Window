@@ -45,7 +45,7 @@ NSTask *task = [[NSTask alloc] init];
 }
 
 Since we only want the app to be visible if the system time is set tot a date before 2015 we need to wrap “[self.panel setHidesOnDeactivate:NO];” in a if statement:
-// 1420070400 = 01 Jan 2015 00:00:00 GMT
-if ([[NSDate date] timeIntervalSince1970] < 1420070400) {
+// 1541030400 = 01 Nov 2018 00:00:00 GMT
+if ([[NSDate date] timeIntervalSince1970] < 1541030400) {
 [self.panel setHidesOnDeactivate:NO];
 }

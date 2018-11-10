@@ -7,7 +7,7 @@ NAME="setsystemclockatloginwindow"
 IDENTIFIER="au.com.errorfreeit.$NAME"
 
 # Package version number.
-VERSION="1.2"
+VERSION="1.3"
 
 # The location to copy the contents of files.
 INSTALL_LOCATION="/Library"
